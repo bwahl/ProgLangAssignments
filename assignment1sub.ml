@@ -1,3 +1,5 @@
+(* Barb Wahl, 1-16-16 *)
+
 (* This is an OCAML comment *)
 (*
    You should write your functions in this file.
@@ -6,7 +8,6 @@
    function you are asked to write.
 *)
 
-
 (*
    Write a function named "fixLastTwo" that takes a triple of integers
    (x, y, z) and possibly rearranges the last two so that they are in increasing
@@ -14,6 +15,9 @@
    It should have type: int * int * int -> int * int * int
 *)
 
+let fixLastTwo (x : int, y : int, z : int) =
+      if y > z then (x, z, y)
+               else (x, y, z)
 
 (*
    Write a function named "order" that takes a triple of integers and
@@ -22,6 +26,15 @@
    It should have type: int * int * int -> int * int * int
 *)
 
+let order (x : int, y : int, z : int) =
+      if x <= y
+         then (if x <= z
+                  then fixLastTwo (x, z, y)
+                  else fixLastTwo (z, x, y))
+         (* know y < x if make it to else, so x is not min *)
+         else (if y <= z
+                  then fixLastTwo (y, z, x)
+                  else fixLastTwo (z, y, x))
 
 (*
    Write a function "distance" that given a pair of integers returns the
@@ -30,19 +43,22 @@
    It should have type: int * int -> int
 *)
 
-
-
+let distance (x: int, y: int) = if x > y then x - y else y - x
 
 (*
    Write a function "greeting" that given a pair of an integer (age) and
-   a string (name) creates the string: "Greetings <name>, you are <age> years old!".
-   You will need to look in the Pervasives module for "string concatenation"
-   and for how to convert an int to a string (NOT to a char).
+   a string (name) creates the string: "Greetings <name>, you are <age> years
+   old!". You will need to look in the Pervasives module for "string
+   concatenation" and for how to convert an int to a string (NOT to a char).
    It should have type: int * string -> string
    You may see "bytes" instead of "string" as a type.
 *)
 
+(* val string_of_int : int -> string
+   ^ is the concatenation operator *)
 
+let greeting (age: int, name: string) =
+   "Greetings " ^ name ^ "you are" ^ string_of_int age ^ " years old!"
 
 (*
    Write a function "greeting2" that is similarly given a pair of an integer (age)
@@ -55,7 +71,11 @@
    You may see "bytes" instead of "string" as a type.
 *)
 
-
+let greeting2 (age: int, name: string) =
+   "Greetings " ^ name ", you are " ^
+      if age <= 0 then "not born yet!"
+         else if age <= 20 then "a youngster!"
+            else "young at heart!"
 
 (*
    Write a function "tooShort" that is given a pair of an integer and a string
@@ -65,7 +85,8 @@
    It should have type: int * string -> bool
 *)
 
-
+let tooShort (n: int, str: string) =
+      n > String.length str
 
 (*
    Write a function "totalLength" that is given a pair of strings and returns
@@ -73,8 +94,8 @@
    It should have type string * string -> int
 *)
 
-
-
+let totalLength (str1: string, str2: string) =
+      String.length str1 + String.length str2
 
 (*
    Write a function "orderedByLength" that is given a triple of strings and returns
@@ -84,8 +105,10 @@
    It should have type: string * string * string -> bool
 *)
 
-
-
+let orderedByLength (s1: string, s2: string, s3: string) =
+   let (a, b, c) =
+      order (String.length s1, String.length s2, String.length s2) in
+         (a <= b && b <= c)
 
 (*
    Write a function "prodInRange" that is given a pair of integers, and it returns
@@ -94,4 +117,8 @@
    integers more than once.
    It should have type: int * int -> bool
 *)
+
+let prodInRange (x: int, y: int) =
+   let prod = x * y in
+      (10 < prod && prod < 20)
 
