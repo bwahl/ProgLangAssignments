@@ -12,7 +12,7 @@
    of strings. It then returns the nth element in the list, counting from 1. If
    the list does not have n elements, it should raise an exception (Failure "getnth").
 *)
-
+this will be wrong.
 
 
 (*
